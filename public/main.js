@@ -1,5 +1,7 @@
+const url = "http://localhost:5001/test-api-76efe/us-central1/api/pets";
+
+// fetch
 const fetchPets = async () => {
-  const url = "http://localhost:5001/test-api-76efe/us-central1/api/pets";
   const response = await fetch(url);
   // transformamos la respuesta json
   // es asincrono
@@ -9,8 +11,51 @@ const fetchPets = async () => {
   return json;
 };
 
+// dar de baja
 const darDeBaja = (id) => {
   console.log(id);
+};
+
+// handleSubmit
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  // desctructuring
+  const { name, type, description } = e.target;
+
+  const data = {
+    name: name.value,
+    type: type.value,
+    description: description.value,
+  };
+
+  name.value = "";
+  type.value = "";
+  description.value = "";
+
+  const response = await fetch(url, {
+    // tenemos que pasarle el metodo
+    method: "POST",
+    // debe ser un string
+    body: JSON.stringify(data),
+  });
+
+  const json = await response.json();
+  // tenemos que cambiar la respuesta del POST
+  // para que nos retorne el _id
+  // como enviamos un string
+  // debemos cambiar el request a JSOn desde el servicio
+
+  // creamos un nuevo template
+  const template = tableTemplate({
+    ...data,
+    _id: json,
+  });
+
+  // lo añadimos al final de tab
+  const tabla = document.getElementById("tab");
+  tabla.insertAdjacentHTML("beforeend", template);
+
+  console.log(data);
 };
 
 // vamos a crear una plantilla
@@ -18,7 +63,7 @@ const darDeBaja = (id) => {
 const tableTemplate = ({ _id, name, type, description }) => `
 	<tr>
 		<td>${name}</td>
-		<td><${type}/td>
+		<td>${type}</td>
 		<td>${description}</td>
 		<td>
 			<button onclick="darDeBaja('${_id}')" type="button">
@@ -31,6 +76,9 @@ const tableTemplate = ({ _id, name, type, description }) => `
 // cuanndo llega al cierra del <html></html>
 // la function se va a ejecutar
 window.onload = async () => {
+  // declaramos una variable para el formulario
+  const petForm = document.getElementById("pet-form");
+  petForm.onsubmit = handleSubmit;
   const pets = await fetchPets();
   // en el cadso de hacerlo con map
   // tenemos que juntar todfos los elementos del arreglo con join

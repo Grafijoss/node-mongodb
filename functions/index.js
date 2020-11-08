@@ -57,14 +57,16 @@ const createServer = () => {
 
     // creamos una instancia de pet
     // le pasamos body
-    const pet = new Pets(body);
+    // tenemos que transformar el body a JSON
+    // por que se esta enviando un string
+    const pet = new Pets(JSON.parse(body));
     // guardamos a pet
     // retorna una promesa
     await pet.save();
     // le notificamos al cliente
     // que se creo de manera exitosa
     // usamos el sendStatus() 204
-    res.sendStatus(204);
+    res.send(pet._id);
   });
 
   // DAR DE ALTA A UNA MASCOTA
