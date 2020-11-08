@@ -4,21 +4,7 @@ const mongoose = require("mongoose");
 // CORS
 const cors = require("cors");
 
-// para esconder user y passowrd
-// firebase functions:config:set
-// seguido de la variable que vamos a configurar
-// mongo.username=lilola
-// mongo.password=A123456789
-// firebase functions:config:set mongo.username=lilola
-// firebase functions:config:set mongo.password=A123456789
-// debemos deployar los cambios
-// firebase deploy
-
-// envolvemos la url con los tactics ``
-// hacemos destructurin de username y password
-const { username, password } = functions.config().mongo;
-
-const mongoUri = `mongodb+srv://${username}:${password}@cluster0.kflco.mongodb.net/test?retryWrites=true&w=majority`;
+const mongoUri = `mongodb+srv://lilola:A123456789@cluster0.kflco.mongodb.net/test?retryWrites=true&w=majority`;
 
 const mongooseConfig = { useNewUrlParser: true, useUnifiedTopology: true };
 
