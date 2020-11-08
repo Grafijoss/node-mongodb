@@ -12,8 +12,9 @@ const fetchPets = async () => {
 };
 
 // dar de baja
-const darDeBaja = (id) => {
-  console.log(id);
+const darDeBaja = async (id) => {
+  event.target.parentElement.parentElement.remove();
+  await fetch(`${url}/${id}/daralta`);
 };
 
 // handleSubmit
@@ -54,8 +55,6 @@ const handleSubmit = async (e) => {
   // lo añadimos al final de tab
   const tabla = document.getElementById("tab");
   tabla.insertAdjacentHTML("beforeend", template);
-
-  console.log(data);
 };
 
 // vamos a crear una plantilla
